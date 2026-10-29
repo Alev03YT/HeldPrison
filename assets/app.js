@@ -1,13 +1,9 @@
-/* HeldPrisons web portal • config is intentionally separate from actual Minecraft plugins.
- * Set serverIp below only after a public address is ready.
- * Do not place tokens, passwords or private API keys in this file.
+"use strict";
+/**
+ * HeldPrisons static portal — no credentials or private endpoints here.
+ * Configure a publicly reachable Minecraft Java address when available.
  */
-const CONFIG = Object.freeze({
-  serverIp: "",
-  serverPort: 25565,
-  telegramUrl: "https://t.me/HeldPrisonsCommunity"
-});
-
+const CONFIG = Object.freeze({serverIp:"",serverPort:25565});
 const ARTICLES = [
   {id:"mining",category:"progression",icon:"⛏",title:"Mining & Miniere",summary:"Il cuore della progressione Prison.",intro:"Il mining è uno dei pilastri di HeldPrisons. Scava, accumula risorse, sviluppa il tuo equipaggiamento e preparati a contenuti sempre più impegnativi.",points:["Le miniere accompagnano la progressione del giocatore.","Il piccone cresce attraverso sistemi di energia e potenziamento.","Eventi speciali possono aggiungere nuove opportunità di raccolta."],note:"I requisiti esatti di accesso alle miniere saranno pubblicati con il regolamento della Beta."},
   {id:"energy",category:"progression",icon:"✧",title:"Cosmic Energy",summary:"Energia per far evolvere il tuo piccone.",intro:"La Cosmic Energy fa parte del percorso di potenziamento del piccone. Può essere gestita tramite bottiglie di energia e utilizzata nei sistemi di upgrade.",points:["Le bottiglie di energia permettono di conservare e trasferire energia.","Il sistema prevede controlli per limitare perdite e duplicazioni.","Le interazioni con il Wormhole sono integrate con il consumo dell'energia."],note:"I valori di energia e le modalità di ottenimento dipendono dal bilanciamento finale."},
@@ -26,159 +22,166 @@ const ARTICLES = [
   {id:"rewards",category:"world",icon:"◆",title:"Ricompense & Contraband",summary:"Scopri loot e oggetti speciali.",intro:"HeldPrisons prevede un ecosistema di loot legato a eventi, contraband e attività diverse, con controlli per una consegna affidabile.",points:["Ricompense per attività ed eventi.","Oggetti di diverse famiglie e rarità.","Controlli sulle assegnazioni per evitare consegne duplicate."],note:"Le tabelle loot complete saranno pubblicate dopo il bilanciamento."},
   {id:"community",category:"world",icon:"◎",title:"Community & Supporto",summary:"Resta aggiornato e trova altri giocatori.",intro:"Il progetto cresce anche grazie al confronto con i giocatori: aggiornamenti, feedback e partecipazione ai test.",points:["Canale Telegram ufficiale con gli annunci.","Assistente Telegram della community.","Feedback durante le fasi di test e sviluppo."],note:"Canale: t.me/HeldPrisonsCommunity"}
 ];
-const LABELS = {progression:"PROGRESSIONE",combat:"COMBATTIMENTO",world:"MONDO"};
-const RANKINGS = {
-  mining:{title:"CLASSIFICA MINING",description:"La classifica dei minatori verrà attivata con la sincronizzazione del server."},
-  gangs:{title:"CLASSIFICA GANG",description:"Le migliori gang appariranno quando i dati del server saranno disponibili."},
-  pvp:{title:"CLASSIFICA PVP",description:"Le statistiche di combattimento saranno mostrate soltanto dopo l'integrazione."},
-  prestige:{title:"CLASSIFICA PRESTIGE",description:"I progressi di prestige verranno sincronizzati con il portale giocatori."}
+const CATEGORY_LABELS={progression:"MINING",combat:"COMBAT",world:"MONDO"};
+const RANK_TYPES={
+ mining:{name:"TOP MINING",description:"I migliori minatori appariranno qui dopo il collegamento ai dati reali del server."},
+ gangs:{name:"TOP GANG",description:"Le gang più forti compariranno qui quando avremo dati reali dal server."},
+ pvp:{name:"TOP PVP",description:"Le statistiche di combattimento saranno visualizzate dopo la sincronizzazione."},
+ prestige:{name:"TOP PRESTIGE",description:"I giocatori con più progressi di Prestige appariranno quando i dati saranno disponibili."}
 };
-const $ = (selector,root=document)=>root.querySelector(selector);
-const $$ = (selector,root=document)=>[...root.querySelectorAll(selector)];
-const normalize = value=>String(value).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("it").trim();
-const state={filter:"all",search:""};
-let toastTimer;
-
-function showToast(message) {
-  const el=$("#toast");
-  if (!el) return;
-  el.textContent=message;
-  el.classList.add("visible");
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.classList.remove("visible"),3300);
+const $=(selector,root=document)=>root.querySelector(selector);
+const $$=(selector,root=document)=>Array.from(root.querySelectorAll(selector));
+const normalized=text=>String(text).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLocaleLowerCase("it").trim();
+let toastTimeout;
+function notify(message){
+ const el=$("#toast");
+ if(!el)return;
+ el.textContent=message;el.classList.add("show");
+ clearTimeout(toastTimeout);
+ toastTimeout=setTimeout(()=>el.classList.remove("show"),2800);
 }
-
-function renderWiki() {
-  const holder=$("#wiki-grid");
-  if(!holder) return;
-  const results=ARTICLES.filter(a=>(state.filter==="all"||a.category===state.filter)&&normalize([a.title,a.summary,a.intro,...a.points].join(" ")).includes(normalize(state.search)));
-  holder.replaceChildren();
-  for(const article of results){
-    const btn=document.createElement("button");
-    btn.type="button";
-    btn.className="wiki-card";
-    btn.dataset.article=article.id;
-    btn.setAttribute("aria-label",`Apri guida: ${article.title}`);
-    btn.innerHTML=`<span class="wiki-card-top"><span class="wiki-glyph" aria-hidden="true">${article.icon}</span><span class="wiki-arrow">↗</span></span><small>${LABELS[article.category]}</small><strong>${article.title}</strong><p>${article.summary}</p>`;
-    holder.append(btn);
-  }
-  if(!results.length) {
-    const msg=document.createElement("p");
-    msg.className="wiki-empty";
-    msg.textContent="Nessun risultato trovato. Prova un termine diverso o cambia categoria.";
-    holder.append(msg);
-  }
-  $("#wiki-count").textContent=` ${results.length} ${results.length===1?"ARTICOLO":"ARTICOLI"} DISPONIBILI · GUIDE IN CONTINUO AGGIORNAMENTO`;
+function initNavigation(){
+ const button=$("#menu-toggle"),nav=$("#primary-nav");
+ if(!button||!nav)return;
+ function toggle(open){
+  nav.classList.toggle("is-open",open);
+  button.setAttribute("aria-expanded",String(open));
+  button.setAttribute("aria-label",open?"Chiudi il menu":"Apri il menu");
+ }
+ button.addEventListener("click",()=>toggle(!nav.classList.contains("is-open")));
+ $$("a",nav).forEach(a=>a.addEventListener("click",()=>toggle(false)));
+ document.addEventListener("click",e=>{if(!button.contains(e.target)&&!nav.contains(e.target))toggle(false)});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape")toggle(false)});
+ window.matchMedia("(min-width:701px)").addEventListener?.("change",e=>{if(e.matches)toggle(false)});
 }
-
-function openWiki(id) {
-  const a=ARTICLES.find(article=>article.id===id);
-  const dialog=$("#wiki-dialog");
-  if(!a||!dialog) return;
-  $("#dialog-content").innerHTML=`<span class="modal-overline">/ HELD KNOWLEDGE BASE — ${LABELS[a.category]}</span><span class="modal-glyph" aria-hidden="true">${a.icon}</span><h2 id="dialog-title">${a.title}</h2><p>${a.intro}</p><ul>${a.points.map(point=>`<li>${point}</li>`).join("")}</ul><div class="modal-note">${a.note}</div>`;
-  if(typeof dialog.showModal==="function") dialog.showModal();
-  else dialog.setAttribute("open","");
-}
-function closeWiki(){
-  const dialog=$("#wiki-dialog");
-  if(!dialog) return;
-  if(typeof dialog.close==="function")dialog.close();
-  else dialog.removeAttribute("open");
+function textElement(tag,className,text){
+ const el=document.createElement(tag);if(className)el.className=className;el.textContent=text;return el;
 }
 function initWiki(){
-  renderWiki();
-  $("#wiki-search")?.addEventListener("input",e=>{state.search=e.target.value;renderWiki()});
-  $$("#wiki-filters button").forEach(btn=>btn.addEventListener("click",()=>{
-    state.filter=btn.dataset.filter;
-    $$("#wiki-filters button").forEach(b=>{const active=b===btn;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active))});
-    renderWiki();
-  }));
-  $("#wiki-grid")?.addEventListener("click",e=>{const btn=e.target.closest("[data-article]");if(btn)openWiki(btn.dataset.article)});
-  document.addEventListener("click",e=>{const a=e.target.closest("[data-wiki-open]");if(a){e.preventDefault();openWiki(a.dataset.wikiOpen)}});
-  $("#dialog-close")?.addEventListener("click",closeWiki);
-  $("#wiki-dialog")?.addEventListener("click",e=>{if(e.target.id==="wiki-dialog")closeWiki()});
-}
-
-function initRanking(){
-  $$(".rank-tab").forEach(btn=>btn.addEventListener("click",()=>{
-    const data=RANKINGS[btn.dataset.ranking];
-    if(!data)return;
-    $$(".rank-tab").forEach(b=>{const selected=b===btn;b.classList.toggle("active",selected);b.setAttribute("aria-pressed",String(selected))});
-    $("#rank-heading").textContent=data.title;
-    $("#rank-description").textContent=data.description;
-  }));
-}
-
-function initMenu(){
-  const menu=$("#nav-links"),toggle=$("#menu-toggle");
-  if(!menu||!toggle)return;
-  const setOpen=open=>{
-    menu.classList.toggle("open",open);
-    toggle.setAttribute("aria-expanded",String(open));
-    toggle.setAttribute("aria-label",open?"Chiudi menu":"Apri menu");
-  };
-  toggle.addEventListener("click",()=>setOpen(!menu.classList.contains("open")));
-  $$("a",menu).forEach(a=>a.addEventListener("click",()=>setOpen(false)));
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")setOpen(false)});
-  document.addEventListener("click",e=>{if(!menu.contains(e.target)&&!toggle.contains(e.target))setOpen(false)});
-}
-
-function statusDisplay({state="unconfigured",message="IP e monitoraggio in attesa di configurazione.",players="—"}={}){
-  $("#server-status-text").textContent=message;
-  $("#server-players").textContent=players;
-  $("#server-state").textContent={online:"ONLINE",offline:"OFFLINE",loading:"CONTROLLO IN CORSO",unconfigured:"NON CONFIGURATO",error:"DATI NON DISPONIBILI"}[state]||"DATI NON DISPONIBILI";
-  const address=CONFIG.serverIp.trim();
-  $("#server-address").textContent=address?address+(Number(CONFIG.serverPort)!==25565?":"+CONFIG.serverPort:""):"IN ARRIVO";
-  const button=$("#copy-ip");
-  button.disabled=!address;
-  button.textContent=address?"COPIA IP DEL SERVER":"IP IN ARRIVO";
-}
-async function refreshStatus(){
-  const host=CONFIG.serverIp.trim();
-  if(!host){statusDisplay();return;}
-  const port=Number(CONFIG.serverPort)||25565;
-  const address=host+(port===25565?"":":"+port);
-  statusDisplay({state:"loading",message:"Richiesta in corso al servizio di monitoraggio..."});
-  try {
-    const controller=new AbortController();
-    const timeout=setTimeout(()=>controller.abort(),9000);
-    let response;
-    try{response=await fetch("https://api.mcstatus.io/v2/status/java/"+encodeURIComponent(address),{signal:controller.signal,cache:"no-store"})}
-    finally{clearTimeout(timeout)}
-    if(!response.ok)throw Error("Service unavailable");
-    const data=await response.json();
-    if(data.online===true){
-      const value=typeof data.players?.online==="number"?String(data.players.online):"—";
-      statusDisplay({state:"online",message:"Il server risulta raggiungibile.",players:value});
-    } else if(data.online===false){
-      statusDisplay({state:"offline",message:"Il server non risponde al monitoraggio."});
-    } else {
-      statusDisplay({state:"error",message:"Il servizio non ha restituito uno stato valido."});
-    }
-  }catch(err){
-    statusDisplay({state:"error",message:"Monitoraggio non disponibile al momento. Riprova più tardi."});
+ const list=$("#wiki-list"),search=$("#wiki-search"),dialog=$("#wiki-dialog");
+ if(!list||!search||!dialog)return;
+ const filters=$$("#wiki-filters button");
+ let category=new URLSearchParams(location.search).get("categoria")||"all";
+ if(!["all","progression","combat","world"].includes(category))category="all";
+ const state={category,search:""};
+ function setCategory(cat){
+  state.category=cat;
+  filters.forEach(btn=>{
+   const active=btn.dataset.filter===cat;
+   btn.classList.toggle("is-active",active);
+   btn.setAttribute("aria-pressed",String(active));
+  });
+  render();
+ }
+ function render(){
+  const result=ARTICLES.filter(a=>{
+   const filtered=state.category==="all"||a.category===state.category;
+   return filtered&&normalized([a.title,a.summary,a.intro,...a.points].join(" ")).includes(normalized(state.search));
+  });
+  const fragment=document.createDocumentFragment();
+  for(const a of result){
+   const button=textElement("button","wiki-card","");
+   button.type="button";
+   button.dataset.wikiId=a.id;
+   button.setAttribute("aria-label","Apri guida "+a.title);
+   button.append(textElement("span","wiki-glyph",a.icon));
+   const body=textElement("span","wiki-item-content","");
+   body.append(textElement("small","",CATEGORY_LABELS[a.category]),textElement("strong","",a.title),textElement("span","wiki-summary",a.summary));
+   button.append(body);fragment.append(button);
   }
+  if(result.length===0)fragment.append(textElement("div","wiki-no-results","Nessuna guida trovata. Prova un'altra ricerca o categoria."));
+  list.replaceChildren(fragment);
+  $("#wiki-count").textContent=result.length+" "+(result.length===1?"GUIDA":"GUIDE");
+ }
+ function openGuide(id,updateUrl=true){
+  const a=ARTICLES.find(item=>item.id===id);
+  if(!a)return;
+  const content=$("#wiki-dialog-content");
+  content.replaceChildren();
+  content.append(textElement("div","dialog-glyph",a.icon),textElement("h2","",a.title));
+  $("#wiki-dialog-title").textContent=a.title;
+  content.append(textElement("p","",a.intro));
+  const ul=document.createElement("ul");
+  a.points.forEach(point=>ul.append(textElement("li","",point)));
+  content.append(ul,textElement("div","modal-footnote",a.note));
+  if(!dialog.open){
+   if(typeof dialog.showModal==="function")dialog.showModal();
+   else dialog.setAttribute("open","");
+  }
+  if(updateUrl)history.replaceState(null,"","#"+encodeURIComponent(a.id));
+ }
+ function closeGuide(){
+  if(!dialog.open)return;
+  if(typeof dialog.close==="function")dialog.close();
+  else dialog.removeAttribute("open");
+ }
+ filters.forEach(btn=>btn.addEventListener("click",()=>setCategory(btn.dataset.filter)));
+ search.addEventListener("input",()=>{state.search=search.value;render()});
+ list.addEventListener("click",e=>{const btn=e.target.closest("[data-wiki-id]");if(btn)openGuide(btn.dataset.wikiId)});
+ $$("[data-close-dialog]").forEach(btn=>btn.addEventListener("click",closeGuide));
+ dialog.addEventListener("click",e=>{if(e.target===dialog)closeGuide()});
+ dialog.addEventListener("close",()=>{if(ARTICLES.some(a=>"#"+a.id===location.hash))history.replaceState(null,"",location.pathname+location.search)});
+ document.addEventListener("keydown",e=>{
+  if(e.key==="/"&&!dialog.open&&!["INPUT","TEXTAREA"].includes(document.activeElement?.tagName)){e.preventDefault();search.focus()}
+ });
+ setCategory(category);
+ const deepLink=decodeURIComponent(location.hash.slice(1));
+ if(deepLink)openGuide(deepLink,false);
+ window.addEventListener("hashchange",()=>{const id=decodeURIComponent(location.hash.slice(1));if(id)openGuide(id,false);else closeGuide()});
 }
-function initStatus(){
-  statusDisplay();
-  $("#refresh-status")?.addEventListener("click",()=>{
-    if(!CONFIG.serverIp.trim()){showToast("L'IP pubblico verrà pubblicato quando sarà disponibile.");return}
-    refreshStatus();
-  });
-  $("#copy-ip")?.addEventListener("click",async()=>{
-    const host=CONFIG.serverIp.trim();
-    if(!host)return;
-    const address=host+(Number(CONFIG.serverPort)!==25565?":"+CONFIG.serverPort:"");
-    try {
-      await navigator.clipboard.writeText(address);
-      showToast("Indirizzo del server copiato: "+address);
-    }catch{
-      showToast("Copia l'indirizzo: "+address);
-    }
-  });
-  if(CONFIG.serverIp.trim())refreshStatus();
+function initLeaderboard(){
+ const buttons=$$("[data-rank]");
+ if(!buttons.length)return;
+ buttons.forEach(btn=>btn.addEventListener("click",()=>{
+  const rank=RANK_TYPES[btn.dataset.rank];
+  if(!rank)return;
+  buttons.forEach(tab=>{const active=tab===btn;tab.classList.toggle("is-active",active);tab.setAttribute("aria-pressed",String(active))});
+  $("#rank-title").textContent=rank.name;
+  $("#rank-text").textContent=rank.description;
+ }));
+}
+function getServerAddress(){
+ const host=CONFIG.serverIp.trim();
+ const port=Number(CONFIG.serverPort)||25565;
+ return host+(port===25565?"":":"+port);
+}
+function renderServer({phase="unconfigured",message="Indirizzo pubblico in attesa di configurazione.",players="—"}={}){
+ const address=CONFIG.serverIp.trim();
+ $$("[data-server-address]").forEach(el=>el.textContent=address?getServerAddress():"IN ARRIVO");
+ $$("[data-server-players]").forEach(el=>el.textContent=players);
+ $$("[data-server-message]").forEach(el=>el.textContent=message);
+ const states={unconfigured:"NON CONFIGURATO",online:"ONLINE",offline:"OFFLINE",loading:"VERIFICA...",error:"NON DISPONIBILE"};
+ $$("[data-status-badge]").forEach(el=>el.textContent=states[phase]||states.error);
+ $$("[data-copy-ip]").forEach(el=>el.disabled=!address);
+}
+async function fetchServerStatus(){
+ if(!CONFIG.serverIp.trim()){renderServer();notify("L'IP sarà disponibile quando verrà annunciata l'apertura.");return}
+ renderServer({phase:"loading",message:"Verifica dello stato in corso..."});
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8500);
+ try{
+  const endpoint="https://api.mcstatus.io/v2/status/java/"+encodeURIComponent(getServerAddress());
+  const response=await fetch(endpoint,{cache:"no-store",signal:controller.signal});
+  if(!response.ok)throw Error("Status service unavailable");
+  const status=await response.json();
+  if(status.online===true)renderServer({phase:"online",message:"Server raggiungibile.",players:typeof status.players?.online==="number"?String(status.players.online):"—"});
+  else if(status.online===false)renderServer({phase:"offline",message:"Il server non risponde al monitoraggio."});
+  else renderServer({phase:"error",message:"Risposta non valida dal servizio di monitoraggio."});
+ }catch{renderServer({phase:"error",message:"Impossibile ottenere lo stato, riprova più tardi."})}
+ finally{clearTimeout(timer)}
+}
+function initServer(){
+ if(!$("[data-server-widget]"))return;
+ renderServer();
+ $$("[data-refresh-status]").forEach(btn=>btn.addEventListener("click",fetchServerStatus));
+ $$("[data-copy-ip]").forEach(btn=>btn.addEventListener("click",async()=>{
+  if(!CONFIG.serverIp.trim())return;
+  const address=getServerAddress();
+  try{await navigator.clipboard.writeText(address);notify("IP copiato: "+address)}
+  catch{notify("Indirizzo server: "+address)}
+ }));
+ if(CONFIG.serverIp.trim())fetchServerStatus();
 }
 document.addEventListener("DOMContentLoaded",()=>{
-  $("#current-year").textContent=String(new Date().getFullYear());
-  initMenu();initWiki();initRanking();initStatus();
+ const year=$("#current-year");if(year)year.textContent=String(new Date().getFullYear());
+ initNavigation();initWiki();initLeaderboard();initServer();
 });
