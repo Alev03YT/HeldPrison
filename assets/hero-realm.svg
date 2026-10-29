@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="860" viewBox="0 0 1000 860" fill="none" role="img" aria-label="Illustrazione originale: cristallo cosmico sospeso sopra una miniera voxel">
+<defs>
+ <radialGradient id="halo"><stop stop-color="#6affea" stop-opacity=".25"/><stop offset=".55" stop-color="#4671be" stop-opacity=".12"/><stop offset="1" stop-color="#121c38" stop-opacity="0"/></radialGradient>
+ <linearGradient id="plata" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#21405a"/><stop offset=".5" stop-color="#1c304e"/><stop offset="1" stop-color="#0e2039"/></linearGradient>
+ <linearGradient id="platb" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#16263c"/><stop offset="1" stop-color="#070f21"/></linearGradient>
+ <linearGradient id="crystalA" x1=".1" y1=".1" x2=".8" y2=".9"><stop stop-color="#c9fff4"/><stop offset=".24" stop-color="#6ffff0"/><stop offset=".7" stop-color="#28aeb9"/><stop offset="1" stop-color="#3179bc"/></linearGradient>
+ <linearGradient id="crystalB" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#4ad8d5"/><stop offset=".7" stop-color="#6265c6"/><stop offset="1" stop-color="#2a3e8c"/></linearGradient>
+ <linearGradient id="crystalC" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#224ca0"/><stop offset=".6" stop-color="#6e62c8"/><stop offset="1" stop-color="#222959"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="13"/></filter>
+ <filter id="smallGlow"><feGaussianBlur stdDeviation="4"/></filter>
+ <pattern id="voxel" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M0 0h28v28" stroke="#92ffef" stroke-opacity=".045"/></pattern>
+</defs>
+<ellipse cx="510" cy="392" rx="425" ry="386" fill="url(#halo)"/>
+<g opacity=".75" stroke="#5aede0" stroke-width="1">
+ <ellipse cx="507" cy="391" rx="325" ry="218" stroke-opacity=".25" transform="rotate(-25 507 391)"/>
+ <ellipse cx="512" cy="385" rx="280" ry="303" stroke-opacity=".15" stroke-dasharray="5 14" transform="rotate(28 512 385)"/>
+ <ellipse cx="512" cy="389" rx="412" ry="340" stroke-opacity=".11" stroke-dasharray="3 17"/>
+</g>
+<g fill="#9dfdeb">
+ <path d="M135 222h3v3h-3zM745 156h4v4h-4zM811 405h3v3h-3zM322 101h3v3h-3zM189 457h5v5h-5zM861 290h4v4h-4zM361 730h3v3h-3zM670 75h3v3h-3zM96 369h3v3h-3zM882 604h3v3h-3z"/>
+</g>
+<g opacity=".6" stroke="#80ffe7"><path d="M238 139v17m-9-9h18M824 196v21m-10-10h20M165 622v15m-8-7h15M722 655v17m-8-8h17"/></g>
+<g opacity=".65">
+ <path d="M140 495l51-27 49 24-50 30z" fill="#31516f"/><path d="M140 495v55l50 27v-55z" fill="#142840"/><path d="M190 522l50-30v57l-50 28z" fill="#0d1b33"/><path d="M151 503l34-17 34 14-33 19z" fill="#456079"/>
+ <path d="M764 370l58-32 57 29-57 33z" fill="#305575"/><path d="M764 370v61l58 32v-63z" fill="#152d48"/><path d="M822 400l57-33v64l-57 32z" fill="#0a1c37"/><path d="M782 371l39-19 39 18-38 21z" fill="#59859a"/>
+ <path d="M697 650l28-15 27 14-27 15z" fill="#255b71"/><path d="M697 650v31l28 15v-32z" fill="#183647"/><path d="M725 664l27-15v32l-27 15z" fill="#0a2339"/>
+</g>
+<g>
+ <path d="M127 568L506 376 887 556 504 765Z" fill="#213c55" stroke="#76ead9" stroke-opacity=".55" stroke-width="2"/>
+ <path d="M127 568v77l377 196v-76Z" fill="#14263c" stroke="#487588" stroke-opacity=".5"/>
+ <path d="M504 765l383-209v79L504 841Z" fill="#0c1b32" stroke="#436f81" stroke-opacity=".55"/>
+ <path d="M198 566l308-153 302 145-307 165z" fill="url(#plata)" stroke="#4da8aa" stroke-opacity=".45"/>
+ <path d="M198 566l308-153 302 145-307 165z" fill="url(#voxel)"/>
+ <path d="M280 555l226-115 219 111-225 120z" stroke="#7cf8e0" stroke-opacity=".16" stroke-width="2"/>
+ <path d="M343 548l167-82 157 81-168 89z" stroke="#79f5df" stroke-opacity=".22"/>
+ <path d="M127 612l377 195 383-204" stroke="#4df8e6" stroke-opacity=".18" stroke-dasharray="18 12"/>
+</g>
+<g>
+ <path d="M307 537l67-31 73 36-72 38z" fill="#21445d"/><path d="M307 537v64l68 36v-57z" fill="#142b44"/><path d="M375 580l72-38v61l-72 34z" fill="#0c2037"/><path d="M318 543l54-26 56 27-54 26z" fill="#395e70"/>
+ <path d="M571 570l78-40 73 37-78 41z" fill="#30536c"/><path d="M571 570v79l73 39v-80z" fill="#142c45"/><path d="M644 608l78-41v75l-78 46z" fill="#0a1d34"/><path d="M584 572l64-31 59 29-63 32z" fill="#537a8b"/>
+</g>
+<g>
+ <path d="M355 331L494 89 648 333 598 560 493 644 386 560z" fill="#4affdf" fill-opacity=".20" filter="url(#glow)"/>
+ <path d="M355 331L494 89 648 333 598 560 493 644 386 560Z" fill="url(#crystalB)" stroke="#9effed" stroke-width="4"/>
+ <path d="M494 89L474 353 355 331Z" fill="url(#crystalA)"/>
+ <path d="M494 89L648 333 474 353Z" fill="#8effec"/>
+ <path d="M355 331L474 353 493 644 386 560Z" fill="#48d0cb"/>
+ <path d="M474 353L648 333 598 560 493 644Z" fill="url(#crystalC)"/>
+ <path d="M494 89L474 353 493 644" stroke="#d2fff5" stroke-opacity=".85" stroke-width="3"/>
+ <path d="M355 331L474 353 648 333" stroke="#c1fff4" stroke-width="2"/>
+ <path d="M386 560L493 644 598 560" stroke="#83fff0" stroke-opacity=".5" stroke-width="3"/>
+ <path d="M494 89L525 225 474 353" fill="#f1fff7" fill-opacity=".3"/>
+ <path d="M535 375l113-42-50 227-55 45z" fill="#a48aff" fill-opacity=".18"/>
+ <path d="M420 219l54 134-119-22z" fill="#d2fff6" fill-opacity=".35"/>
+ <path d="M512 107l37 61" stroke="#e3fff4" stroke-width="3" stroke-linecap="round"/>
+</g>
+<g opacity=".92" fill="#8fffea">
+ <path d="M230 351l13-24 13 24-13 24z"/><path d="M744 473l12-21 12 21-12 21z"/><path d="M703 229l8-16 8 16-8 16z"/>
+ <path d="M266 674l7-13 7 13-7 13z"/>
+</g>
+<g opacity=".45" stroke="#8cffe8">
+ <path d="M210 338l33-17 33 17-33 17zM243 355v30M210 338v30l33 17M276 338v30l-33 17" stroke-width="1"/>
+ <path d="M732 459l25-12 25 12-25 13zM757 472v26M732 459v26l25 13M782 459v26l-25 13"/>
+</g>
+<g stroke="#b1fff0" stroke-width="2" opacity=".65"><path d="M470 20v28m-14-14h28"/><path d="M821 512v20m-10-10h20"/><path d="M301 450v19m-10-10h20"/></g>
+</svg>
