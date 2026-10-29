@@ -98,8 +98,9 @@ function initWiki(){
   if(!a)return;
   const content=$("#wiki-dialog-content");
   content.replaceChildren();
-  content.append(textElement("div","dialog-glyph",a.icon),textElement("h2","",a.title));
-  $("#wiki-dialog-title").textContent=a.title;
+  const heading=textElement("h2","",a.title);
+  heading.id="wiki-dialog-title";
+  content.append(textElement("div","dialog-glyph",a.icon),heading);
   content.append(textElement("p","",a.intro));
   const ul=document.createElement("ul");
   a.points.forEach(point=>ul.append(textElement("li","",point)));
