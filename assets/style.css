@@ -53,3 +53,5 @@
 @media(max-width:480px){.home-shop-promo strong{font-size:22px}.home-shop-promo>span:nth-child(2)>span{font-size:10px}.home-shop-promo b{margin-left:0;width:100%;text-align:right}.shop-detail-layout{grid-template-columns:1fr}.shop-detail-symbol{width:150px;height:150px;margin:auto}.shop-detail-dialog{padding:15px}.shop-detail-main h2{font-size:32px}.shop-detail-main{padding-top:4px}.shop-detail-main .shop-price{font-size:28px}}
 
 @media(max-width:700px){.navlinks{top:63px}}
+
+[hidden]{display:none!important}
