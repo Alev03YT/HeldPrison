@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "revision": "held-shop-initial-2026-10-29",
+  "settings": {
+    "title": "HELD SHOP",
+    "eyebrow": "HELDPRISONS / STORE",
+    "subtitle": "POTENZIA LA TUA AVVENTURA.",
+    "description": "Resta aggiornato: le offerte e i contenuti dello shop saranno pubblicati qui quando saranno pronti.",
+    "announcement": "Shop in preparazione · Nessun acquisto attivo",
+    "currency": "EUR",
+    "shopOpen": false,
+    "supportUrl": "https://t.me/HeldPrisonsAssistantBot"
+  },
+  "sections": [
+    {
+      "id": "vip",
+      "name": "RANK VIP",
+      "description": "Gradi e vantaggi dedicati ai sostenitori",
+      "icon": "♛",
+      "visible": true
+    },
+    {
+      "id": "gkits",
+      "name": "GKITS",
+      "description": "Kit ed equipaggiamenti speciali",
+      "icon": "⚔",
+      "visible": true
+    },
+    {
+      "id": "crates",
+      "name": "KEYS & CRATES",
+      "description": "Chiavi, casse e ricompense",
+      "icon": "◆",
+      "visible": true
+    },
+    {
+      "id": "cosmetics",
+      "name": "COSMETICI",
+      "description": "Personalizzazioni e contenuti estetici",
+      "icon": "✦",
+      "visible": true
+    },
+    {
+      "id": "bundles",
+      "name": "BUNDLE",
+      "description": "Pacchetti e offerte speciali",
+      "icon": "▣",
+      "visible": true
+    }
+  ],
+  "products": []
+}
