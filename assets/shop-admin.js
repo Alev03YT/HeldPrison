@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded",async()=>{
  const core=window.HeldShopData;
  const $=s=>document.querySelector(s);
  const $$=s=>Array.from(document.querySelectorAll(s));
- let draft,published,baseRevision="",activeEditor=null;
+ let draft,published,baseRevision="",activeEditor=null,staleDraft=null;
  const editor=$("#admin-editor-dialog"),fields=$("#editor-fields"),editorForm=$("#admin-editor-form");
  const elt=(tag,cls,text)=>{
   const e=document.createElement(tag);
@@ -242,27 +242,36 @@ document.addEventListener("DOMContentLoaded",async()=>{
   try{localStorage.setItem(STORAGE,JSON.stringify({baseRevision,catalog:draft}));$("#local-status").textContent="Bozza salvata su questo dispositivo."}
   catch{$("#local-status").textContent="Il browser non permette il salvataggio locale. Usa Esporta JSON."}
  });
+ function downloadCatalog(value,name){
+  const blob=new Blob([JSON.stringify(value,null,2)+"\\n"],{type:"application/json"});
+  const url=URL.createObjectURL(blob),link=elt("a");
+  link.href=url;link.download=name;
+  document.body.append(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }
+ $("#export-stale").addEventListener("click",()=>{
+  if(!staleDraft)return;
+  downloadCatalog(staleDraft,"heldprisons-shop-bozza-precedente.json");
+  $("#local-status").textContent="Bozza precedente salvata in un file JSON.";
+ });
  $("#export-json").addEventListener("click",()=>{
   if(!assertDraft())return;
-  const blob=new Blob([JSON.stringify(draft,null,2)+"\n"],{type:"application/json"});
-  const url=URL.createObjectURL(blob),link=elt("a");
-  link.href=url;link.download="heldprisons-shop-backup.json";
-  document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  downloadCatalog(draft,"heldprisons-shop-backup.json");
   $("#local-status").textContent="Backup JSON scaricato.";
  });
- $("#import-json").addEventListener("change",async e=>{
+  $("#import-json").addEventListener("change",async e=>{
   const file=e.target.files?.[0];if(!file)return;
   try{
    if(file.size>1_000_000)throw new Error("File troppo grande (massimo 1 MB).");
    const imported=core.validate(JSON.parse(await file.text()));
    if(!confirm("Sostituire la bozza corrente con il file selezionato?"))return;
-   draft=imported;mark();$("#local-status").textContent="Catalogo importato nella bozza. Non ancora pubblicato.";
+   draft=imported;staleDraft=null;$("#export-stale").hidden=true;mark();$("#local-status").textContent="Catalogo importato nella bozza. Non ancora pubblicato.";
   }catch(err){alert("Impossibile importare: "+err.message)}
   finally{e.target.value=""}
  });
  $("#reset-draft").addEventListener("click",()=>{
   if(!confirm("Eliminare le modifiche locali e ripristinare il catalogo caricato dal sito?"))return;
-  draft=core.clone(published);
+  draft=core.clone(published);staleDraft=null;$("#export-stale").hidden=true;
   try{localStorage.removeItem(STORAGE)}catch{}
   setStatus("CATALOGO RIPRISTINATO");
   $("#admin-summary").textContent="Stai modificando il catalogo attualmente caricato dal sito.";
@@ -322,9 +331,10 @@ document.addEventListener("DOMContentLoaded",async()=>{
      draft=candidate;setStatus("BOZZA LOCALE RIPRISTINATA");
      $("#admin-summary").textContent="Hai una bozza locale non pubblicata su questo dispositivo.";
     }else{
+     staleDraft=candidate;$("#export-stale").hidden=false;
      setStatus("BOZZA LOCALE DI UNA VERSIONE PRECEDENTE");
-     $("#admin-summary").textContent="È presente una bozza di un catalogo differente. Esporta il vecchio JSON, poi ripristina per lavorare sulla versione attuale.";
-     $("#local-status").textContent="Attenzione: bozza locale non caricata automaticamente a causa di una versione pubblicata più recente.";
+     $("#admin-summary").textContent="Una versione più recente è online. Scarica la bozza precedente per salvarne i contenuti prima di modificare il catalogo attuale.";
+     $("#local-status").textContent="Bozza precedente rilevata: usa “Scarica bozza precedente” per il backup. Non viene pubblicata automaticamente.";
     }
    }catch{try{localStorage.removeItem(STORAGE)}catch{}}
   }else{
