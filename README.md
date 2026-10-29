@@ -11,7 +11,7 @@ Portale web **compatto, responsive e multipagina** per il progetto Minecraft Hel
 | `wiki.html` | 16 guide ricercabili, filtrabili, con schede approfondite e link diretti |
 | `eventi.html` | Eventi Prison e contenuti previsti, senza orari inventati |
 | `classifiche.html` | Pannello leaderboard Mining / Gang / PvP / Prestige, in attesa dei dati reali |
-| `community.html` | Telegram, assistente, FAQ e aggiornamenti |
+| `community.html` | Canale ufficiale @CosmicPrisonsOG, gruppo @HeldPrisonsCommunity, assistente, FAQ |
 | `assets/style.css` | Tema voxel/prison (ossidiana, pietra e oro) e layout responsive |
 | `assets/app.js` | Navigazione mobile, wiki, classifica e status Minecraft opzionale |
 | `assets/prison-world.svg` | Illustrazione vettoriale originale della fortezza mineraria |
@@ -61,3 +61,9 @@ Il frontend è pronto per aggiunte successive, ma **non esistono ancora** una si
 **Stato noto:** il primo deployment è fallito perché GitHub Pages non era ancora abilitato/configurato (errore "Get Pages site failed — Not Found"). Il sito **non deve essere dichiarato online** finché un deployment effettivo non riesce.
 
 © HeldPrisons. Progetto indipendente, non affiliato a Mojang o Microsoft.
+
+## Telegram ufficiale
+
+- **Canale annunci:** https://t.me/CosmicPrisonsOG
+- **Gruppo community:** https://t.me/HeldPrisonsCommunity
+- **Bot assistente:** https://t.me/HeldPrisonsAssistantBot
