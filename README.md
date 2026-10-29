@@ -1,65 +1,63 @@
-# HeldPrisons — Official Web Portal
+# HeldPrisons — Portale ufficiale (V2)
 
-Sito web statico responsive per il progetto Minecraft **HeldPrisons**.
+Portale web **compatto, responsive e multipagina** per il progetto Minecraft HeldPrisons.
 
-## Cosa contiene (V1)
-- Landing page originale dark sci-fi / voxel con immagine SVG proprietaria
-- Panoramica delle principali meccaniche di HeldPrisons
-- Wiki interattiva in italiano (16 guide, ricerca testuale, filtri e schede)
-- Sezione eventi e informazioni sulla community
-- Classifiche con categorie selezionabili (**in attesa del backend reale**)
-- Roadmap dello sviluppo e box per lo stato del server
-- Copia IP e monitoraggio reale opzionali, attivabili dopo la configurazione
-- Interfaccia mobile, accessibilità di base, SEO e favicon
+## Struttura del sito
 
-## Anteprima sul proprio computer
-Apri `index.html` nel browser. Non occorre Node.js né un database. Per testare in locale con un web server, esegui dalla cartella del sito:
+| File | Funzionalità |
+|---|---|
+| `index.html` | Home compatta: panoramica, accessi rapidi, stato server e aggiornamenti |
+| `gameplay.html` | Meccaniche: mining, Wormhole, enchantments, gang, celle, raid e contenuti avanzati |
+| `wiki.html` | 16 guide ricercabili, filtrabili, con schede approfondite e link diretti |
+| `eventi.html` | Eventi Prison e contenuti previsti, senza orari inventati |
+| `classifiche.html` | Pannello leaderboard Mining / Gang / PvP / Prestige, in attesa dei dati reali |
+| `community.html` | Telegram, assistente, FAQ e aggiornamenti |
+| `assets/style.css` | Tema voxel/prison (ossidiana, pietra e oro) e layout responsive |
+| `assets/app.js` | Navigazione mobile, wiki, classifica e status Minecraft opzionale |
+| `assets/prison-world.svg` | Illustrazione vettoriale originale della fortezza mineraria |
+| `assets/favicon.svg` | Emblema voxel del portale |
+
+La V2 sostituisce la precedente homepage a scorrimento continuo con sei pagine tematiche. È un sito statico: non occorrono Node, database o servizi a pagamento per visualizzare il frontend.
+
+## Responsive
+
+I layout si riadattano a desktop, laptop, tablet e smartphone. Gli stili comprendono breakpoint a **1140, 900, 700, 480 e 340 px**, con griglie fluide, navigazione mobile con toggle, pulsanti di dimensione adatta al touch, gestione degli schermi piccoli e supporto a `prefers-reduced-motion`.
+
+## Anteprima locale
+
+Puoi aprire direttamente `index.html`, oppure usare un server web statico locale:
 
 ```bash
 python -m http.server 8080
 ```
 
-Apri poi `http://localhost:8080`.
+Quindi apri `http://localhost:8080`. Le altre pagine funzionano tramite navigazione tradizionale.
 
-## Configurazione server
-Apri `assets/app.js` e modifica solo le proprietà iniziali:
+## Stato server
+
+In `assets/app.js`, configura `CONFIG.serverIp` **solo dopo la pubblicazione dell'IP ufficiale**:
 
 ```js
-const CONFIG = Object.freeze({
-  serverIp: "",       // es. play.tuodominio.it; lascia vuoto finché non è pubblico
-  serverPort: 25565,
-  telegramUrl: "https://t.me/HeldPrisonsCommunity"
-});
+const CONFIG = Object.freeze({serverIp:"",serverPort:25565});
 ```
 
-Finché l'IP è vuoto il sito mostra **NON CONFIGURATO** e disabilita la copia, senza inventare numeri. Con un IP impostato il box interroga `api.mcstatus.io` per lo stato pubblico Minecraft Java, quando il servizio è disponibile.
+Quando l'indirizzo non è impostato, la UI segnala chiaramente **NON CONFIGURATO** e disabilita la copia IP. Una volta impostato, l'interfaccia può interrogare l'API pubblica `api.mcstatus.io` per mostrare stato e numero di giocatori online, quando disponibili.
 
-**Non aggiungere token, password o credenziali segrete a file JavaScript pubblici.**
+**Mai pubblicare credenziali, RCON, API key o password in JavaScript distribuito al browser.**
 
-## Pubblicazione con GitHub Pages
-1. Vai in **Settings → Pages** del repository.
-2. In **Build and deployment**, imposta **GitHub Actions** come source.
-3. Il workflow `.github/workflows/pages.yml` pubblicherà il contenuto a ogni push su `main`.
-4. Il collegamento pubblico sarà mostrato da GitHub solo dopo un deployment riuscito.
+## Classifiche e account
 
-**Importante:** il repository è stato creato come **privato**. GitHub Pages per repository privati richiede un piano GitHub che lo supporti (es. GitHub Pro/Team), altrimenti puoi scegliere di rendere pubblico il repository *manualmente* o usare un hosting esterno. Nessun cambio di visibilità viene eseguito automaticamente.
+Il frontend è pronto per aggiunte successive, ma **non esistono ancora** una sincronizzazione con il database Paper, le classifiche reali, il login Minecraft, un pannello staff o l'inventario remoto. Queste parti richiedono un backend con API autenticata e sicura; non usare RCON o un database accessibili direttamente dal sito.
 
-## Prossime integrazioni
-- API read-only sul server / bridge sicuro per dati giocatori e stato
-- Classifiche sincronizzate (mining, gang, PvP, prestige)
-- Profili giocatore con autenticazione reale e protezioni adeguate
-- Calendario eventi collegato al plugin
-- CMS/annunci staff, pannello ticket e sistema di supporto
-- Regolamento completo, drops/loot reali e wiki approfondita
+## GitHub Pages
 
-Le integrazioni con i plugin **HeldPrisonsCore** e **HeldEliteBridge** dovranno avvenire tramite un servizio backend autenticato e con permessi minimi; mai esporre la porta RCON o il database direttamente dal browser.
+È presente un workflow di deploy in `.github/workflows/pages.yml`. Per pubblicare:
 
-## File principali
-- `index.html` — struttura del portale
-- `assets/style.css` — design e responsive
-- `assets/app.js` — wiki, menu, tabs, server status
-- `assets/hero-realm.svg` — illustrazione originale
-- `assets/favicon.svg` — icona del progetto
-- `.github/workflows/pages.yml` — deploy GitHub Pages
+1. Apri **Settings → Pages** del repository.
+2. Abilita Pages, se disponibile per il tuo piano GitHub e per il repository privato.
+3. Scegli **GitHub Actions** come origine del deployment.
+4. Dopo il push su `main`, verifica la riuscita del workflow in **Actions**.
+
+**Stato noto:** il primo deployment è fallito perché GitHub Pages non era ancora abilitato/configurato (errore "Get Pages site failed — Not Found"). Il sito **non deve essere dichiarato online** finché un deployment effettivo non riesce.
 
 © HeldPrisons. Progetto indipendente, non affiliato a Mojang o Microsoft.
