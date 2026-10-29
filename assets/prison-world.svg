@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 470" width="690" height="470" role="img" aria-labelledby="scene-title">
+<title id="scene-title">Fortezza mineraria in stile voxel di HeldPrisons</title>
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2b444d" stop-opacity=".3"/><stop offset="1" stop-color="#16313b" stop-opacity="0"/></linearGradient>
+<linearGradient id="rock" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#60766e"/><stop offset=".5" stop-color="#3a5358"/><stop offset="1" stop-color="#182c38"/></linearGradient>
+<linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#74847a"/><stop offset=".48" stop-color="#536869"/><stop offset="1" stop-color="#394b50"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ffdf91"/><stop offset=".55" stop-color="#efb95b"/><stop offset="1" stop-color="#956634"/></linearGradient>
+<linearGradient id="ice" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#d9fff0"/><stop offset=".4" stop-color="#68e2cc"/><stop offset="1" stop-color="#277d83"/></linearGradient>
+<filter id="shade"><feGaussianBlur stdDeviation="17"/></filter>
+<pattern id="bricks" width="39" height="22" patternUnits="userSpaceOnUse"><path d="M0 0H39M19 0V11M0 11H39M0 11v11M39 11v11" fill="none" stroke="#152c37" stroke-width="2" opacity=".4"/></pattern>
+</defs>
+<ellipse cx="357" cy="292" rx="247" ry="150" fill="#6bcec2" opacity=".1" filter="url(#shade)"/>
+<g opacity=".5">
+<path d="M45 315v-52h36v-23h41v-31h35v31h36v61h39v73H45Z" fill="#24414b"/>
+<path d="M483 316v-35h32v-36h37v-28h40v20h36v66h30v70H483Z" fill="#2d4951"/>
+<path d="M57 282h47m-47 15h31m507-38h42m-42 17h40" stroke="#87b9af" stroke-width="4" stroke-opacity=".2"/>
+</g>
+<g>
+<path d="M55 326 328 189 640 325 361 449Z" fill="#4e6967" stroke="#8ab4a0" stroke-width="3"/>
+<path d="M55 326v48l306 79v-4Z" fill="#273f47"/>
+<path d="M361 449 640 325v43L361 453Z" fill="#192c37"/>
+<path d="M82 327 331 209 610 327 361 424Z" fill="#3a5858"/>
+<path d="M82 327 331 209 610 327 361 424Z" fill="url(#bricks)" opacity=".42"/>
+<path d="M85 347 360 436 615 344" fill="none" stroke="#8da19a" stroke-width="3" opacity=".5"/>
+</g>
+<g opacity=".94">
+<path d="M112 311 175 281 239 309 174 344Z" fill="#82958c"/>
+<path d="M112 311v51l62 30v-48Z" fill="#41585b"/>
+<path d="M174 344 239 309v54l-65 29Z" fill="#2a444f"/>
+<path d="M118 321h23v17h-23Zm26 20h23v17h-23ZM190 345l16-8v17l-16 8Z" fill="#b4a46e" opacity=".45"/>
+<path d="M483 304 540 277 596 303 541 333Z" fill="#82928a"/>
+<path d="M483 304v49l58 28v-48Z" fill="#41585b"/>
+<path d="M541 333 596 303v51l-55 27Z" fill="#273e49"/>
+</g>
+<g>
+<path d="M241 152 405 93 513 150 341 216Z" fill="#a6a99a" stroke="#c4baa2" stroke-width="3"/>
+<path d="M241 152v170l100 46V216Z" fill="url(#wall)" stroke="#354b4e" stroke-width="3"/>
+<path d="M341 216 513 150v170l-172 48Z" fill="#3c5459" stroke="#22363e" stroke-width="3"/>
+<path d="M241 152v170l100 46V216Z" fill="url(#bricks)" opacity=".55"/>
+<path d="M341 216 513 150v170l-172 48Z" fill="url(#bricks)" opacity=".7"/>
+<path d="M242 151 406 90l109 58-174 66Z" fill="#7b928a"/>
+<path d="M242 151 406 90l109 58-174 66" stroke="#aab3a3" stroke-width="3"/>
+<path d="M263 158 407 108l82 40-146 57Z" fill="#344f54"/>
+<path d="M281 158 406 119l64 30-127 48Z" fill="#73857d"/>
+<path d="M286 179 342 205v160l-56-25Z" fill="#70847e" opacity=".7"/>
+<path d="M341 218 513 151" stroke="#20343e" stroke-width="6"/>
+</g>
+<g>
+<path d="M326 247 382 223 422 241 363 265Z" fill="#b9a372"/>
+<path d="M326 247v109l37 16V265Z" fill="#142831"/>
+<path d="M363 265 422 241v105l-59 26Z" fill="#10242f"/>
+<path d="M374 272 411 257v85l-37 16Z" fill="#1e383d"/>
+<path d="M383 269v83m11-89v85m-20-59 38-16m-38 48 38-16" stroke="#d6b774" stroke-width="5"/>
+<path d="M326 247 382 223l40 18" fill="none" stroke="#efc67a" stroke-width="5"/>
+</g>
+<g>
+<path d="M205 166 259 145l55 25-55 26Z" fill="#a7a99d"/>
+<path d="M210 166v-76l49-20v75Z" fill="#708580"/>
+<path d="M259 70l46 21v76l-46-22Z" fill="#394f56"/>
+<path d="M202 88l55-24 54 24-52 24Z" fill="#8f988d" stroke="#b9b3a0" stroke-width="3"/>
+<path d="M211 76h13V56h19v12h18V49h18v17h18v22l-38 15-47-19Z" fill="#697e79" stroke="#344e50" stroke-width="2"/>
+<path d="M224 118l19-7v25l-19 7ZM265 112l16 7v25l-16-7Z" fill="#1a303a"/>
+<path d="M225 124l17-6v6l-17 6ZM265 120l15 6v5l-15-6Z" fill="#f2be66"/>
+</g>
+<g>
+<path d="M447 140 504 117l57 26-57 29Z" fill="#a3aa9e"/>
+<path d="M451 140V76l53-24v65Z" fill="#647e7c"/>
+<path d="M504 52l47 24v66l-47-25Z" fill="#37505b"/>
+<path d="M442 76l60-27 60 26-58 28Z" fill="#84968d" stroke="#b8baa8" stroke-width="3"/>
+<path d="M450 64V46l13-6v17l14-6V33l14-7v17l16-7 15 8 16-7 16 8v26l-50 24Z" fill="#6b8984" stroke="#425c62" stroke-width="2"/>
+<path d="M464 100l19-8v26l-19 7ZM511 89l16 7v25l-16-7Z" fill="#182f3a"/>
+<path d="M464 106l19-8v6l-19 8ZM511 97l15 6v6l-15-6Z" fill="#f3c575"/>
+</g>
+<g>
+<path d="M287 175 347 195l118-45-59-21Z" fill="#283d43" stroke="#87a69a" stroke-width="2"/>
+<path d="M315 176l33 12 90-34-30-12Z" fill="url(#gold)"/>
+<text x="356" y="168" transform="rotate(-20 356 168)" font-family="monospace" font-size="21" font-weight="900" letter-spacing="1.3" text-anchor="middle" fill="#202b2e">HELD</text>
+</g>
+<g>
+<path d="M156 276 175 233l21 44-21 45Z" fill="url(#ice)" stroke="#c1ffe9" stroke-width="3"/>
+<path d="M175 233v89l21-45Z" fill="#338e92"/>
+<path d="M141 291 153 269l13 22-13 25Z" fill="#5bc7bb"/>
+<path d="M521 280 547 221l29 59-29 59Z" fill="url(#ice)" stroke="#b9fbe6" stroke-width="3"/>
+<path d="M547 221v118l29-59Z" fill="#398a91"/>
+<path d="M576 293 591 261l14 32-14 32Z" fill="#65c6bc"/>
+</g>
+<g fill="#d7a960"><path d="m205 346 13-5 10 4-12 6ZM243 361l11-5 9 4-12 6ZM478 381l14-6 12 5-13 7ZM537 349l13-5 9 4-10 5Z"/></g>
+<g stroke="#d3e9d0" stroke-width="2" opacity=".6"><path d="M141 189v18m-9-9h18M592 181v22m-11-11h22M619 288v16m-8-8h16"/></g>
+</svg>
